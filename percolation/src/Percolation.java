@@ -9,12 +9,17 @@ public class Percolation {
 
     // init grid.
     public Percolation(int n) {
+        // n must be greater than zero
         if (n <= 0) {
             throw new IllegalArgumentException("Invalid Input: n");
         }
 
         this.n = n;
+
+        // create a new union obj with size of n*n (2d array)
         union = new WeightedQuickUnion(this.n * this.n);
+
+        // 2d byte array to hold open sites
         grid = new byte[this.n][this.n];
     }
 
@@ -51,23 +56,39 @@ public class Percolation {
         }
 
         // above cell
-        if (row - 1 > 0 && isOpen(row - 1, col)) {
-            update(row - 1, col, row, col);
-        }
+        aboveCell(row, col);
 
         // below cell
-        if (row + 1 < n && isOpen(row + 1, col)) {
-            update(row + 1, col , row, col);
-        }
+        belowCell(row, col);
 
         // right cell
+        rightCell(row, col);
+
+        // left cell
+        leftCell(row, col);
+    }
+
+    private void leftCell(int row, int col) {
+        if (col - 1 > 0 && isOpen(row, col-1)) {
+            update(row, col-1, row, col);
+        }
+    }
+
+    private void rightCell(int row, int col) {
         if (col + 1 < n && isOpen(row, col + 1)) {
             update(row, col + 1, row, col);
         }
+    }
 
-        // left cell
-        if (col - 1 > 0 && isOpen(row, col-1)) {
-            update(row, col-1, row, col);
+    private void belowCell(int row, int col) {
+        if (row + 1 < n && isOpen(row + 1, col)) {
+            update(row + 1, col , row, col);
+        }
+    }
+
+    private void aboveCell(int row, int col) {
+        if (row - 1 > 0 && isOpen(row - 1, col)) {
+            update(row - 1, col, row, col);
         }
     }
 
@@ -101,6 +122,14 @@ public class Percolation {
         return grid[root / n][root % n] == 2;
     }
 
+    private void printGrid() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                StdOut.print(grid[i][j]);
+            }
+            StdOut.println();
+        }
+    }
 
     public static void main(String[] args) {
         int number = StdIn.readInt();
@@ -129,6 +158,6 @@ public class Percolation {
         } else {
             StdOut.println("no percolates");
         }
-
+        //percolation.printGrid();
     }
 }
