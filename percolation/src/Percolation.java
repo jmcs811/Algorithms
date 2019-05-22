@@ -1,9 +1,8 @@
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private int n;
-    private WeightedQuickUnion union;
+    private final int n;
+    private final WeightedQuickUnionUF union;
     private byte[][] grid;
     private int num;
 
@@ -14,10 +13,10 @@ public class Percolation {
             throw new IllegalArgumentException("Invalid Input: n");
         }
 
-        this.n = n;
+        this.n = n + 1;
 
         // create a new union obj with size of n*n (2d array)
-        union = new WeightedQuickUnion(this.n * this.n);
+        union = new WeightedQuickUnionUF(this.n * this.n);
 
         // 2d byte array to hold open sites
         grid = new byte[this.n][this.n];
@@ -25,10 +24,10 @@ public class Percolation {
 
     // ensure that input is in valid range
     private void validate(int row, int col) {
-        if (row < 0 || row >= n) {
+        if (row < 0 || row > n) {
             throw new IllegalArgumentException("Invalid Input: row");
         }
-        if (col < 0 || col >= n) {
+        if (col < 0 || col > n) {
             throw new IllegalArgumentException("Invalid Input: col");
         }
     }
@@ -82,7 +81,7 @@ public class Percolation {
 
     private void belowCell(int row, int col) {
         if (row + 1 < n && isOpen(row + 1, col)) {
-            update(row + 1, col , row, col);
+            update(row + 1, col, row, col);
         }
     }
 
@@ -103,7 +102,7 @@ public class Percolation {
         }
     }
 
-    private boolean isOpen(int row, int col) {
+    public boolean isOpen(int row, int col) {
         validate(row, col);
         return grid[row][col] > 0;
     }
@@ -114,50 +113,50 @@ public class Percolation {
     }
 
     public int numberOfOpenSites() {
-        return num - 1;
+        return num;
     }
 
-    private boolean percolates() {
+    public boolean percolates() {
         int root = union.find(0);
         return grid[root / n][root % n] == 2;
     }
 
-    private void printGrid() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                StdOut.print(grid[i][j]);
-            }
-            StdOut.println();
-        }
-    }
+//    private void printGrid() {
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                StdOut.print(grid[i][j]);
+//            }
+//            StdOut.println();
+//        }
+//    }
 
-    public static void main(String[] args) {
-        int number = StdIn.readInt();
-        Percolation percolation = new Percolation(number);
-        boolean isPercolated = false;
-        int count = 0;
-
-        while (!StdIn.isEmpty()) {
-            int row = StdIn.readInt();
-            int col = StdIn.readInt();
-
-            if (!percolation.isOpen(row, col)) {
-                count++;
-            }
-
-            percolation.open(row, col);
-            isPercolated = percolation.percolates();
-            if (isPercolated) {
-                break;
-            }
-        }
-
-        StdOut.println(count + " open sites");
-        if (isPercolated) {
-            StdOut.println("percolates");
-        } else {
-            StdOut.println("no percolates");
-        }
-        //percolation.printGrid();
-    }
+//    public static void main(String[] args) {
+//        int number = StdIn.readInt();
+//        Percolation percolation = new Percolation(number);
+//        boolean isPercolated = false;
+//        int count = 0;
+//
+//        while (!StdIn.isEmpty()) {
+//            int row = StdIn.readInt();
+//            int col = StdIn.readInt();
+//
+//            if (!percolation.isOpen(row, col)) {
+//                count++;
+//            }
+//
+//            percolation.open(row, col);
+//            isPercolated = percolation.percolates();
+//            if (isPercolated) {
+//                break;
+//            }
+//        }
+//
+//        StdOut.println(count + " open sites");
+//        if (isPercolated) {
+//            StdOut.println("percolates");
+//        } else {
+//            StdOut.println("no percolates");
+//        }
+//        //percolation.printGrid();
+//    }
 }
