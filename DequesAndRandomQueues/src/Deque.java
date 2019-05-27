@@ -13,7 +13,9 @@ public class Deque<Item> implements Iterable<Item> {
         Node prev;
     }
 
-    public Deque(){}
+    public Deque() {
+
+    }
 
     public boolean isEmpty() { return this.size == 0; }
 
@@ -72,6 +74,10 @@ public class Deque<Item> implements Iterable<Item> {
 
     public Item removeFirst() {
 
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+
         Item returnItem = this.first.item;
         size--;
 
@@ -87,6 +93,10 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public Item removeLast() {
+
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
 
         Item returnItem = this.last.item;
         size--;
@@ -106,7 +116,6 @@ public class Deque<Item> implements Iterable<Item> {
     public Iterator<Item> iterator() {
         return new DequeIterator();
     }
-
 
     private class DequeIterator implements Iterator<Item> {
 
