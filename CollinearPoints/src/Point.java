@@ -24,18 +24,18 @@ public class Point implements Comparable<Point> {
     /* Positive inf means vertical line
      *  Negative inf means degenerate line
      *  Positive zero means horizontal line*/
+    if (that == null) {
+      throw new NullPointerException();
+    }
+
+    double slope;
     if (that.x == this.x) {
-      if (that.y == this.y) {
-        return Double.NEGATIVE_INFINITY;
-      }
-      return Double.POSITIVE_INFINITY;
+      if (that.y == this.y) slope = Double.NEGATIVE_INFINITY;
+      else slope = Double.POSITIVE_INFINITY;
     }
-
-    if (that.y == this.y) {
-      return 0.0;
-    }
-
-    return (this.y - that.y) * 1.0 / (this.x - that.y);
+    else if (that.y == this.y) slope = +0.0;
+    else slope = (double) (that.y - this.y) / (double) (that.x - this.x);
+    return slope;
   }
 
   @Override

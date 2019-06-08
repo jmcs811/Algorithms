@@ -14,7 +14,7 @@ public class BruteCollinearPoints {
     Point[] sortedPoints = points.clone();
     Arrays.sort(sortedPoints);
     int arrayLength = sortedPoints.length;
-    checkDupes(points);
+    checkDupes(sortedPoints);
 
     List<LineSegment> list = new ArrayList<>();
     for (int i = 0; i < arrayLength - 3; i++) {
